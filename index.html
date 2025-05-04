@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ePortfolio</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My ePortfolio</h1>
+        <p>Your gateway to my professional journey and aspirations.</p>
+    </header>
+    <nav>
+        <a href="#" onclick="loadMarkdown('index.md')">Home</a>
+        <a href="#" onclick="loadMarkdown('cover-letter.md')">Cover Letter</a>
+        <a href="#" onclick="loadMarkdown('resume.md')">Resumé</a>
+        <a href="#" onclick="loadMarkdown('professional-skills.md')">Professional Skills</a>
+        <a href="#" onclick="loadMarkdown('graduate-attributes.md')">Graduate Attributes</a>
+        <a href="#" onclick="loadMarkdown('transcripts-certifications.md')">Transcripts & Certifications</a>
+        <a href="#" onclick="loadMarkdown('work-samples-projects.md')">Work Samples & Projects</a>
+        <a href="#" onclick="loadMarkdown('career-goals-action-plans.md')">Career Goals & Action Plans</a>
+    </nav>
+    <div id="content" class="container">
+        <h2>About This ePortfolio</h2>
+        <p>This ePortfolio serves as a comprehensive showcase of my qualifications, skills, and achievements. Use the navigation links above to explore each section.</p>
+    </div>
+    <footer>
+        <p>&copy; 2025 [Kripesh Bista]. All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function loadMarkdown(file) {
+            const response = await fetch(file);
+            if (response.ok) {
+                const markdown = await response.text();
+                document.getElementById('content').innerHTML = marked.parse(markdown);
+            } else {
+                document.getElementById('content').innerHTML = `<p>Failed to load content. Please try again later.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
