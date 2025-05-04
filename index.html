@@ -13,14 +13,14 @@
         <p>Your gateway to my professional journey and aspirations.</p>
     </header>
     <nav>
-        <a href="#" onclick="loadMarkdown('index.md')">Home</a>
-        <a href="#" onclick="loadMarkdown('cover-letter.md')">Cover Letter</a>
-        <a href="#" onclick="loadMarkdown('resume.md')">Resumé</a>
-        <a href="#" onclick="loadMarkdown('professional-skills.md')">Professional Skills</a>
-        <a href="#" onclick="loadMarkdown('graduate-attributes.md')">Graduate Attributes</a>
-        <a href="#" onclick="loadMarkdown('transcripts-certifications.md')">Transcripts & Certifications</a>
-        <a href="#" onclick="loadMarkdown('work-samples-projects.md')">Work Samples & Projects</a>
-        <a href="#" onclick="loadMarkdown('career-goals-action-plans.md')">Career Goals & Action Plans</a>
+        <a href="#" onclick="event.preventDefault(); loadMarkdown('index.md')">Home</a>
+        <a href="#" onclick="event.preventDefault(); loadMarkdown('cover-letter.md')">Cover Letter</a>
+        <a href="#" onclick="event.preventDefault(); loadMarkdown('resume.md')">Resumé</a>
+        <a href="#" onclick="event.preventDefault(); loadMarkdown('professional-skills.md')">Professional Skills</a>
+        <a href="#" onclick="event.preventDefault(); loadMarkdown('graduate-attributes.md')">Graduate Attributes</a>
+        <a href="#" onclick="event.preventDefault(); loadMarkdown('transcripts-certifications.md')">Transcripts & Certifications</a>
+        <a href="#" onclick="event.preventDefault(); loadMarkdown('work-samples-projects.md')">Work Samples & Projects</a>
+        <a href="#" onclick="event.preventDefault(); loadMarkdown('career-goals-action-plans.md')">Career Goals & Action Plans</a>
     </nav>
     <div id="content" class="container">
         <h2>About This ePortfolio</h2>
@@ -36,10 +36,26 @@
             if (response.ok) {
                 const markdown = await response.text();
                 document.getElementById('content').innerHTML = marked.parse(markdown);
+    
+                // Update the URL without reloading the page
+                const pageName = file.replace('.md', ''); // Remove the .md extension
+                history.pushState(null, '', `#${pageName}`);
             } else {
                 document.getElementById('content').innerHTML = `<p>Failed to load content. Please try again later.</p>`;
             }
         }
+    
+        // Handle back/forward navigation
+        window.addEventListener('popstate', () => {
+            const pageName = location.hash.substring(1) || 'index'; // Default to 'index' if no hash
+            loadMarkdown(`${pageName}.md`);
+        });
+    
+        // Load the correct page on initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageName = location.hash.substring(1) || 'index'; // Default to 'index' if no hash
+            loadMarkdown(`${pageName}.md`);
+        });
     </script>
 </body>
 </html>
